@@ -3,12 +3,28 @@
  */
 package org.example;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        String msg = "", fileName = "";
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-m")) {
+                msg = args[i + 1];
+            } else if (args[i].equals("-f")) {
+                fileName = args[i + 1];
+            }
+        }
+
+        try {
+            FileWriter a = new FileWriter(fileName);
+            a.write(msg);
+            a.close();
+        } catch (IOException e) {
+
+        }
     }
 }
