@@ -3,14 +3,20 @@
  */
 package org.example;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class App {
-
+    public String msg = "";
+    public String fileName = "";
+    public Object file;
     public static void main(String[] args) {
-        String msg = "", fileName = "";
+        App app = new App();
+        app.parse(args);
+        app.write();
+    }
+
+    public void parse(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-m")) {
                 msg = args[i + 1];
@@ -18,7 +24,9 @@ public class App {
                 fileName = args[i + 1];
             }
         }
+    }
 
+    public void write() {
         try {
             FileWriter a = new FileWriter(fileName);
             a.write(msg);

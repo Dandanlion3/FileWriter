@@ -6,9 +6,94 @@ package org.example;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class AppTest {
-    @Test public void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    @Test public void parseCanExtractMessage() {
+        // Given (These are the things we need to start the test)
+        App app = new App();
+        String flag = "-m";
+        String message = "Hello world";
+        String[] args = {flag, message};
+
+        // When (When we perform the behaviour)
+        app.parse(args);
+
+        // Then (Check the results)
+        assertEquals(app.msg, message);
+    }
+
+    @Test public void parseCanExtractFileName() {
+        //Given
+        App app = new App();
+        String flag = "-f";
+        String fileName = "pipi_is_a_cute_dog.txt";
+        String[] args = {flag, fileName};
+
+        //When
+        app.parse(args);
+
+        //Then
+        assertEquals(app.fileName, fileName);
+    }
+
+    @Test public void parseCanExtract() {
+        // Given
+        App app = new App();
+        String flag1 = "-m";
+        String flag2 = "-f";
+        String message = "Hello World";
+        String fileName = "pipi_is_a_cute_dog.txt";
+        String[] args = {flag1, message, flag2, fileName};
+
+        // When
+        app.parse(args);
+
+        // Then
+        assertEquals(app.msg, message);
+        assertEquals(app.fileName, fileName);
+    }
+
+    /**
+     * @return
+     */
+    @Test public void writeMessage() {
+        // Given
+        App app = new App();
+        String flag1 = "-f";
+        String fileName = "pipi_is_a_cute_dog.txt";
+        String flag2 = "-m";
+        String msg = "We are a happy family.";
+        String[] args = {flag1, fileName, flag2, msg};
+
+        app.parse(args);
+
+        // When
+        app.write();
+        
+
+        // Then
+        // 1) Check to see if the file exists
+        // 2) Check if the file content and the message match
+        File file = new File(fileName);
+        
+        assertTrue(file.exists());
+
+        String contents;
+        try {
+            contents = Files.readString(Paths.get(fileName));
+        }
+        catch(IOException e) {
+            contents = "failed";
+            fail("Fail to open " + fileName + ": " + e.getMessage());
+        }
+        
+        assertEquals(contents, msg);
+        // assertEquals(.fileName, fileName);
+        // assertEquals(app., msg);
     }
 }
