@@ -1,15 +1,19 @@
-# Command line tool
+# FileWriter Command line tool
 
 ### Description 
 
 This app takes command line string and write message to a text file.
 
-### Usage: app_name [options] required_input required_input2
-  options:
-  
-    -f, -f output.txt     The file that the user would write into
+### Usage: program_name [options]
+  Options:
 
-    -m, -m 'message'     Put the message in between ''
+    -h, --help     Display this help message 
+    -f, --filename <file>     Required. The file that the user would write into
+    -m, --message <message>     Required. Put the message in between <>
+
+  Arguments:
+
+    <input_file> Input file for processing
+    <output_directory> Directory for output files
     
-    -h, --help     Give usage message and exit
-    
+       

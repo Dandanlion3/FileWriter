@@ -7,16 +7,29 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class AppTest {
-    @Test public void parseCanExtractMessage() {
+    @Test public void parseCanExtractMsg() {
         // Given (These are the things we need to start the test)
         App app = new App();
         String flag = "-m";
+        String message = "Hello world";
+        String[] args = {flag, message};
+
+        // When (When we perform the behaviour)
+        app.parse(args);
+
+        // Then (Check the results)
+        assertEquals(app.msg, message);
+    }
+
+    @Test public void parseCanExtractMessage() {
+        // Given (These are the things we need to start the test)
+        App app = new App();
+        String flag = "--message";
         String message = "Hello world";
         String[] args = {flag, message};
 
@@ -31,8 +44,9 @@ public class AppTest {
         //Given
         App app = new App();
         String flag = "-f";
+        String option = "--filename";
         String fileName = "pipi_is_a_cute_dog.txt";
-        String[] args = {flag, fileName};
+        String[] args = {flag, fileName, option, fileName};
 
         //When
         app.parse(args);
@@ -41,14 +55,30 @@ public class AppTest {
         assertEquals(app.fileName, fileName);
     }
 
+    // @Test public void parseCanExtractHelp() {
+    //     // Given
+    //     App app = new App();
+    //     String flag = "-h";
+    //     String option = "--help";
+
+    //     // When 
+    //     app.parse(args);
+
+    //     // Then
+    //     assertEquals(app.help, details);
+    // }
+
     @Test public void parseCanExtract() {
         // Given
         App app = new App();
         String flag1 = "-m";
         String flag2 = "-f";
+        String option1 = "--message";
+        String option2 = "filename";
         String message = "Hello World";
         String fileName = "pipi_is_a_cute_dog.txt";
-        String[] args = {flag1, message, flag2, fileName};
+        String[] args = {flag1, message, flag2, fileName, 
+            option1, message, option2, fileName};
 
         // When
         app.parse(args);
@@ -65,10 +95,13 @@ public class AppTest {
         // Given
         App app = new App();
         String flag1 = "-f";
+        String option1 = "--filename";
         String fileName = "pipi_is_a_cute_dog.txt";
         String flag2 = "-m";
+        String option2 = "--message";
         String msg = "We are a happy family.";
-        String[] args = {flag1, fileName, flag2, msg};
+        String[] args = {flag1, fileName, flag2, msg, 
+            option1, fileName, option2, msg};
 
         app.parse(args);
 
@@ -93,7 +126,7 @@ public class AppTest {
         }
         
         assertEquals(contents, msg);
-        // assertEquals(.fileName, fileName);
-        // assertEquals(app., msg);
+        // Clean up. 
+        file.delete();
     }
 }

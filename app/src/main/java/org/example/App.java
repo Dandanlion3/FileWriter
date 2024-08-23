@@ -9,21 +9,34 @@ import java.io.IOException;
 public class App {
     public String msg = "";
     public String fileName = "";
+    public String help = "";
     public Object file;
     public static void main(String[] args) {
         App app = new App();
         app.parse(args);
         app.write();
-    }
+    } 
 
     public void parse(String[] args) {
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-m")) {
+            if (args[i].equals("-m") || 
+                (args[i].equals("--message"))) {
                 msg = args[i + 1];
-            } else if (args[i].equals("-f")) {
+            } else if (args[i].equals("-f") || 
+                (args[i].equals("--filename"))) {
                 fileName = args[i + 1];
-            }
+            } else if (args[i].equals("-h") ||
+                (args[i].equals("--help"))) {
+                System.out.println("This app takes command line string and write message to a text file.\n\n" + 
+                                        "Usage: app_name [options] required_input required_input2\n" + 
+                                        "  options:\n\n" + 
+                                        "    -f, --filename output.txt     The file that the user would write into\n\n" + 
+                                        "    -m, --message 'message'     Put the message in between ''\n\n" + 
+                                        "    -h, --help     Give usage message and exit\n" + 
+                                        "    ");
+                }
         }
+
     }
 
     public void write() {
